@@ -1,9 +1,7 @@
 package me.araopj;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.pitzzahh.util.utilities.FileUtil;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -51,8 +49,8 @@ public class Main {
                         .emergencyContactName(arr[26])
                         .emergencyContactPhone(arr[27])
                         .employeePhoto(arr[28])
-                        .build())
-                .toList();
+                        .build()
+                ).toList();
 
         println("Number of employees = " + employeelist.size());
         println("First employee = " + employeelist.getFirst());
