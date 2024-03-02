@@ -2,8 +2,7 @@ package me.araopj;
 
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -17,7 +16,7 @@ public class RawInfo {
     private String jobTitle;
     private String department;
     private String salaryCurrency;
-    private Date hireDate;
+    private LocalDate hireDate;
     private String address;
     private String city;
     private String state;
