@@ -16,6 +16,8 @@ public class Main {
         data.stream()
                 .map(Arrays::toString)
                 .forEach(System.out::println);
+        // TODO: Convert the data to a list of RawInfo objects
+        // TODO: Save the list of RawInfo objects to a json file
     }
 
     public static List<String[]> getFileContents(File file, int line, String separator, Charset charset) throws IOException {
