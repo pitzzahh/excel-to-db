@@ -25,8 +25,9 @@ public class Main {
         Objects.requireNonNull(separator, "separator cannot be null, please use an empty String to separate everything (\"\")");
         try (var data = Files.lines(Paths.get(file.getAbsolutePath()), charset)) {
            return data.skip(line)
-                   .map((a) -> Arrays.stream(a.split(separator)).map(String::trim).collect(Collectors.joining(separator)))
-                   .map((e) -> e.split(separator))
+                   .map((a) -> Arrays.stream(a.split(separator))
+                           .map(s -> "BLANKS".equals(s.trim()) ? null : s.trim())
+                           .toArray(String[]::new))
                    .collect(Collectors.toList());
         }
     }
