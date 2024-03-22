@@ -16,62 +16,54 @@ import static io.github.pitzzahh.util.utilities.Print.println;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        var file = new File("MOCK_DATA.csv");
-        var data = getFileContents(file, 1, ",", StandardCharsets.ISO_8859_1);
-        List<RawInfo> employeelist = data.stream()
-                .map(arr -> RawInfo.builder()
-                        .employeeId(Integer.parseInt(arr[0]))
-                        .firstName(arr[1])
-                        .lastName(arr[2])
-                        .age(Integer.parseInt(arr[3]))
-                        .email(arr[4])
-                        .gender(arr[5])
-                        .jobTitle(arr[6])
-                        .department(arr[7])
-                        .salaryCurrency(arr[8])
-                        .hireDate(LocalDate.parse(arr[9], DateTimeFormatter.ofPattern("M/d/yyyy")))
-                        .address(arr[10])
-                        .city(arr[11])
-                        .state(arr[12])
-                        .postalCode(arr[13])
-                        .country(arr[14])
-                        .phoneNumber(arr[15])
-                        .socialSecurityNumber(arr[16])
-                        .startTime(arr[17])
-                        .endTime(arr[18])
-                        .overTime(Integer.parseInt(arr[19]))
-                        .vacationDays(Integer.parseInt(arr[20]))
-                        .performanceRating(Integer.parseInt(arr[21]))
-                        .managerId(Integer.parseInt(arr[22]))
-                        .benefitsPackage(arr[23])
-                        .trainingCompleted(Boolean.parseBoolean(arr[24]))
-                        .workLocation(arr[25])
-                        .emergencyContactName(arr[26])
-                        .emergencyContactPhone(arr[27])
-                        .employeePhoto(arr[28])
-                        .build()
+        var file = new File("MOCK_DATA.psv");
+        var data = getFileContents(file, 5, '|', StandardCharsets.UTF_8);
+        List<List<Salary>> salaries = data.stream()
+                .map(arr -> {
+                            List<Salary> list = new ArrayList<>();
+                            for (int i = 0; i < arr.length; i++) {
+                                Salary build = Salary.builder()
+                                        .salaryGrade(Integer.parseInt(arr[0]))
+                                        .stepName("Step " + (i + 1))
+                                        .stepAmount(convertToDouble(arr[i + 1]))
+                                        .build();
+                                list.add(build);
+                            }
+                            return list;
+                        }
                 ).toList();
+        salaries.forEach(s -> {
+                    println("Number of employees = " + s.size());
+                    println("First employee = " + s.getFirst());
+                    println("Last employee = " + s.getLast());
+                    s.forEach(System.out::println);
+                });
 
-        println("Number of employees = " + employeelist.size());
-        println("First employee = " + employeelist.getFirst());
-        println("Last employee = " + employeelist.getLast());
-        employeelist.forEach(System.out::println);
-        println("-------CONVERTING TO JSON---------");
-        var gson = new GsonBuilder().setPrettyPrinting()
-                .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
-                .create();
-        var json = gson.toJson(employeelist);
-        FileUtil.writeToATextFile(json, new File("mock_data.json"), false);
+//        println("Number of employees = " + salaries.size());
+//        println("First employee = " + salaries.getFirst());
+//        println("Last employee = " + salaries.getLast());
+//        salaries.forEach(System.out::println);
+//        println("-------CONVERTING TO JSON---------");
+//        var gson = new GsonBuilder().setPrettyPrinting()
+//                .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+//                .create();
+//        var json = gson.toJson(salaries);
+//        FileUtil.writeToATextFile(json, new File("mock_data.json"), false);
     }
 
-    public static List<String[]> getFileContents(File file, int line, String separator, Charset charset) throws IOException {
+    public static List<String[]> getFileContents(File file, int startLine, char separator, Charset charset) throws IOException {
         Objects.requireNonNull(file, "File cannot be null");
-        Objects.requireNonNull(separator, "separator cannot be null, please use an empty String to separate everything (\"\")");
+        Objects.requireNonNull(charset, "Charset cannot be null");
         try (var data = Files.lines(Paths.get(file.getAbsolutePath()), charset)) {
-           return data.skip(line)
-                   .map((a) -> Arrays.stream(a.split(separator)).map(String::trim).collect(Collectors.joining(separator)))
-                   .map((e) -> e.split(separator))
-                   .collect(Collectors.toList());
+            return data.skip(startLine)
+                    .map((a) -> Arrays.stream(a.split(String.valueOf(separator)))
+                            .map(s -> "BLANKS".equals(s.trim()) ? null : s.trim())
+                            .toArray(String[]::new))
+                    .collect(Collectors.toList());
         }
+    }
+
+    public static double convertToDouble(String numberString) {
+        return Double.parseDouble(numberString.replace(",", ""));
     }
 }
