@@ -12,7 +12,7 @@ target/
 *.iml
 *.ipr
 *.json
-MOCK_DATA.csv
+*.csv
 
 ### Eclipse ###
 .apt_generated
