@@ -40,14 +40,14 @@ public class Main {
                         // We store the salaries based on their salary grade
                         // Each salary grade has multiple steps, so we store them in a list
                         List<RawInfo> salaries = rawData.stream()
-                                .map(arr ->{
+                                .map(arr -> {
                                     return RawInfo.builder()
                                             .firstName(arr[0])
                                             .middleName(arr[1])
                                             .lastName(arr[2])
                                             .appel(arr[3])
                                             .posCode(arr[4])
-                                            .longs(arr[14] == null ?  0.00 : convertToDouble(arr[14]))
+                                            .longs(arr[14] == null ? 0.00 : convertToDouble(arr[14]))
                                             .build();
                                 }).toList();
 
