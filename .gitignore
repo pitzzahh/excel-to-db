@@ -11,6 +11,8 @@ target/
 *.iws
 *.iml
 *.ipr
+MASTFILE.csv
+MASTFILE.json
 
 ### Eclipse ###
 .apt_generated
