@@ -18,6 +18,7 @@ public class RawInfo {
     private double basic;
     private double trans;
     private double pera;
+    private double aca;
     private double rata;
     private double ontop;
     private double longs;
@@ -26,7 +27,7 @@ public class RawInfo {
     private double dedTax;
     private double dedPag;
     private double netPay;
-    private double pagCode;
+    private int pagCode;
     private int taxCode;
     private String civilStatus;
     private String attend;
@@ -34,7 +35,7 @@ public class RawInfo {
     private String sex;
     private LocalDate birthDate;
     private long tin;
-    private String gsis_Pin;
+    private String gsis_Pn;
     private long gsis_Id;
     private double govtLnr;
     private double govtEcc;
@@ -53,7 +54,7 @@ public class RawInfo {
     private int regCode;
     private int divCode;
     private int employeeNumber;
-    private int account;
+    private long account;
     private String fullName;
     private double clothing;
     private double cashFlow;
